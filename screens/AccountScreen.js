@@ -16,9 +16,9 @@ import { commonStyles, darkStyles, lightStyles } from "../styles/commonStyles";
 import { changeModeAction, deletePicAction } from "../redux/ducks/accountPref";
 import { logOutAction } from "../redux/ducks/blogAuth";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import profile from '../assets/user.png';
+import profile from "../assets/user.png";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function AccountScreen({ navigation }) {
   const token = useSelector((state) => state.auth.token);
@@ -30,8 +30,8 @@ export default function AccountScreen({ navigation }) {
   const picSize = new Animated.Value(0);
   const sizeInterpolation = {
     inputRange: [0, 0.5, 1],
-    outputRange: [200, 300, 200]
-  }  
+    outputRange: [200, 300, 200],
+  };
 
   const styles = { ...commonStyles, ...(isDark ? darkStyles : lightStyles) };
   const [username, setUsername] = useState(null);
@@ -65,7 +65,6 @@ export default function AccountScreen({ navigation }) {
   }
 
   function signOut() {
-    
     dispatch(logOutAction());
     navigation.navigate("SignInSignUp");
   }
@@ -84,9 +83,9 @@ export default function AccountScreen({ navigation }) {
   //         duration: 2500,
   //         useNativeDriver: false
   //       })
-  //   ]) 
+  //   ])
   //   ).start()
-    
+
   // }
 
   function changePicSize() {
@@ -94,14 +93,29 @@ export default function AccountScreen({ navigation }) {
       Animated.timing(picSize, {
         toValue: 1,
         duration: 2500,
-        useNativeDriver: false
-      }),
-    ).start()
+        useNativeDriver: false,
+      })
+    ).start();
   }
 
-  function deletePic(){
+  function deletePic() {
     dispatch(deletePicAction());
   }
+
+  // This is to set up the top right button
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={signOut}>
+          <FontAwesome
+            name="sign-out"
+            size={24}
+            style={{ color: styles.headerTint, marginRight: 15 }}
+          />
+        </TouchableOpacity>
+      ),
+    });
+  });
 
   useEffect(() => {
     console.log("Setting up nav listener");
@@ -121,36 +135,52 @@ export default function AccountScreen({ navigation }) {
         {" "}
         Hello {username} !
       </Text>
-      <View style={{ height:profilePicture == null ? 200 : 320, justifyContent: "center" }}>
-      {profilePicture == null? <Image
-      source={profile}
-      style={{ width: 150, height: 150, borderRadius: 200 }}
-      /> :
-        <TouchableWithoutFeedback onPress={changePicSize}>
-          <Animated.Image 
-          style={{ width: picSize.interpolate(sizeInterpolation), height: picSize.interpolate(sizeInterpolation), borderRadius: 200 }} source={{ uri: profilePicture }} />
-        </TouchableWithoutFeedback>
-        /* <TouchableWithoutFeedback onPress={changePicSize}>
+      <View
+        style={{
+          height: profilePicture == null ? 200 : 320,
+          justifyContent: "center",
+        }}
+      >
+        {
+          profilePicture == null ? (
+            <Image
+              source={profile}
+              style={{ width: 150, height: 150, borderRadius: 200 }}
+            />
+          ) : (
+            <TouchableWithoutFeedback onPress={changePicSize}>
+              <Animated.Image
+                style={{
+                  width: picSize.interpolate(sizeInterpolation),
+                  height: picSize.interpolate(sizeInterpolation),
+                  borderRadius: 200,
+                }}
+                source={{ uri: profilePicture }}
+              />
+            </TouchableWithoutFeedback>
+          )
+          /* <TouchableWithoutFeedback onPress={changePicSize}>
           <Animated.Image style={{ width: picSize, height: picSize, borderRadius: 200 }}
                           source={{ uri: profilePicture }} />
         </TouchableWithoutFeedback> */
-      }
+        }
       </View>
       <TouchableOpacity onPress={() => navigation.navigate("Camera")}>
         <Text style={{ marginTop: 10, fontSize: 20, color: "#0000EE" }}>
           {profilePicture
-          ? "Delete this photo. Take another one."
-          : "No profile picture. Click to take one."} 
+            ? "Delete this photo. Take another one."
+            : "No profile picture. Click to take one."}
         </Text>
       </TouchableOpacity>
       {profilePicture ? (
         <View>
           <TouchableOpacity onPress={deletePic}>
-            <Text style={{ marginTop: 10, fontSize: 20, color: "#0000EE" }}>Delete Profile Picture</Text>
+            <Text style={{ marginTop: 10, fontSize: 20, color: "#0000EE" }}>
+              Delete Profile Picture
+            </Text>
           </TouchableOpacity>
         </View>
-      ) : null
-      }
+      ) : null}
       <View
         style={{
           flexDirection: "row",
