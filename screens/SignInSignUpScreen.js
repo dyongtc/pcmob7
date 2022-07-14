@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   Keyboard,
   LayoutAnimation,
+  Image,
 } from "react-native";
 import { API, API_LOGIN, API_SIGNUP } from "../constants/API";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -94,6 +95,7 @@ export default function SignInSignUpScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <Image source={require('../assets/icons8-money-100.png')} />
       <Text style={styles.title}>{isLogIn ? "Log In" : "Sign Up"}</Text>
       <View style={styles.inputView}>
         <TextInput
@@ -172,18 +174,18 @@ export default function SignInSignUpScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F6EFEF",
     alignItems: "center",
     justifyContent: "center",
   },
   title: {
     fontWeight: "bold",
-    fontSize: 40,
+    fontSize: 36,
     margin: 20,
   },
   switchText: {
     fontWeight: "400",
-    fontSize: 20,
+    fontSize: 18,
     marginTop: 20,
   },
   inputView: {
@@ -200,14 +202,17 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   button: {
-    backgroundColor: "blue",
+    backgroundColor: "#C1DBFC",
     borderRadius: 25,
+    width: 200,
+    height: 60,
+    alignItems: "center",
   },
   buttonText: {
     fontWeight: "400",
-    fontSize: 20,
+    fontSize: 16,
     margin: 20,
-    color: "white",
+    color: "#5A4C4C",
   },
   errorText: {
     fontSize: 15,
