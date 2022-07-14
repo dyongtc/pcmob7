@@ -20,19 +20,34 @@ export const commonStyles = {
     fontWeight: '400',
     fontSize: 24,
   },
+  dateTitle: {
+    fontWeight: "bold",
+    fontSize: 18,
+    textAlign: "center",
+    marginTop: 10,
+    color: "#5A4C4C",
+  },
+  totalAmount: {
+    fontWeight: "bold",
+    fontSize: 24,
+    textAlign: "center",
+    marginTop: 10,
+    color: "red",
+  },
+
 }
 
 export const lightStyles = {
   container: {
     flex: 1,
-    backgroundColor: "#ffc",
+    backgroundColor: "#F6EFEF",
   },
   text: {
     color: "black",
   },
   header: {
-    backgroundColor: "yellow",
-    height: 100,
+    backgroundColor: "#C1DBFC",
+    height: 80,
     shadowColor: "black",
     shadowOpacity: 0.2,
     shadowRadius: 5,
@@ -40,22 +55,22 @@ export const lightStyles = {
   headerTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#f55"
+    color: "black"
   },
-  headerTint: "#f55"
+  headerTint: "black"
 };
 
 export const darkStyles = {
   container: {
     flex: 1,
-    backgroundColor: "#878683",
+    backgroundColor: "#3C4E64",
   },
   text: {
     color: "white",
   },
   header: {
-    backgroundColor: "#444444",
-    height: 100,
+    backgroundColor: "#323941",
+    height: 80,
     shadowColor: "black",
     shadowOpacity: 0.2,
     shadowRadius: 5,
