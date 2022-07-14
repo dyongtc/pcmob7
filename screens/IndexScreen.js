@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, TouchableOpacity, FlatList, RefreshControl } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  FlatList,
+  RefreshControl,
+  SafeAreaView,
+  StyleSheet,
+} from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
 import { API, API_POSTS } from "../constants/API";
-import { darkStyles, lightStyles } from "../styles/commonStyles";
+import { commonStyles, darkStyles, lightStyles } from "../styles/commonStyles";
 import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
-export default function IndexScreen({ navigation, route }) {
-  const token = useSelector((state)=> state.auth.token);
+export default function IndexScreen({ route }) {
+  const navigation = useNavigation();
+  const token = useSelector((state) => state.auth.token);
   const isDark = useSelector((state) => state.accountPrefs.isDark);
   const styles = isDark ? darkStyles : lightStyles;
   const [posts, setPosts] = useState([]);
@@ -18,7 +28,11 @@ export default function IndexScreen({ navigation, route }) {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity onPress={addPost}>
-          <FontAwesome name="plus" size={24} style={{ color: styles.headerTint, marginRight: 15 }} />
+          <FontAwesome
+            name="plus"
+            size={24}
+            style={{ color: styles.headerTint, marginRight: 15 }}
+          />
         </TouchableOpacity>
       ),
     });
@@ -45,7 +59,7 @@ export default function IndexScreen({ navigation, route }) {
       return "completed";
     } catch (error) {
       console.log(error.response.data);
-      if (error.response.data.error = "Invalid token") {
+      if ((error.response.data.error = "Invalid token")) {
         navigation.navigate("SignInSignUp");
       }
     }
@@ -65,18 +79,20 @@ export default function IndexScreen({ navigation, route }) {
     try {
       const response = await axios.delete(API + API_POSTS + `/${id}`, {
         headers: { Authorization: `JWT ${token}` },
-      })
+      });
       console.log(response);
       setPosts(posts.filter((item) => item.id !== id));
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
   // The function to render each row in our FlatList
   function renderItem({ item }) {
     return (
-      <TouchableOpacity onPress={() => navigation.navigate("Details", { id:item.id })}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Details", { id: item.id })}
+      >
         <View
           style={{
             padding: 10,
@@ -86,7 +102,8 @@ export default function IndexScreen({ navigation, route }) {
             borderBottomWidth: 1,
             flexDirection: "row",
             justifyContent: "space-between",
-          }}>
+          }}
+        >
           <Text style={styles.text}>{item.title}</Text>
           <TouchableOpacity onPress={() => deletePost(item.id)}>
             <FontAwesome name="trash" size={20} color="#a80000" />
@@ -96,8 +113,44 @@ export default function IndexScreen({ navigation, route }) {
     );
   }
 
+  const [currentDate, setCurrentDate] = useState("");
+
+  useEffect(() => {
+    var date = new Date().getDate(); //Current Date
+    var month = new Date().getMonth() + 1; //Current Month
+    var year = new Date().getFullYear(); //Current Year
+    var hours = new Date().getHours(); //Current Hours
+    var min = new Date().getMinutes(); //Current Minutes
+    var sec = new Date().getSeconds(); //Current Seconds
+    setCurrentDate(
+      date + "/" + month + "/" + year
+    );
+  }, []);
+
+  // function Date() {
+  //   const [currentDate, setCurrentDate] = useState("");
+
+  //   useEffect(() => {
+  //     var date = new Date().getDate(); //Current Date
+  //     var month = new Date().getMonth() + 1; //Current Month
+  //     var year = new Date().getFullYear(); //Current Year
+  //     setCurrentDate(
+  //       date + "/" + month + "/" + year + " "
+  //     );
+  //   }, []);
+
+  //   return (
+  //     <View>
+  //       <Text>Current Date</Text>
+  //       <Text>{currentDate}</Text>
+  //     </View>
+  //   );
+  // }
+
   return (
     <View style={styles.container}>
+      <Text style={commonStyles.dateTitle}>{currentDate}</Text>
+      <Text style={commonStyles.totalAmount}> Total Spent: 'amount' </Text>
       <FlatList
         data={posts}
         renderItem={renderItem}
@@ -114,4 +167,3 @@ export default function IndexScreen({ navigation, route }) {
     </View>
   );
 }
-
