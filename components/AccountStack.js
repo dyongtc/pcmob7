@@ -13,8 +13,8 @@ export default function AccountStack() {
 
   return (
   <Stack.Navigator>
-    <Stack.Screen component={AccountScreen} name="Account" options={{
-        title: "Your Account",
+    <Stack.Screen component={AccountScreen} name="Profile" options={{
+        title: "Profile",
         headerStyle: styles.header,
         headerTitleStyle: styles.headerTitle,
         headerLeft: null
