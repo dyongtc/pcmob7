@@ -13,11 +13,15 @@ export default function CreateScreen({ navigation }) {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [date, setDate] = useState("");
+  const [amount, setAmount] = useState("");
   
   async function savePost() {
     const post = {
       title: title,
       content: content,
+      date: date,
+      amount: amount,
     };
     try {
       console.log(token);
@@ -34,20 +38,37 @@ export default function CreateScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={{ margin: 20 }}>
-        <Text style={[additionalStyles.label, styles.text]}>Enter Title:</Text>
+        <Text style={[additionalStyles.label, styles.text]}>Spend:</Text>
         <TextInput
           style={additionalStyles.input}
           value={title}
           onChangeText={(text) => setTitle(text)}
         />
         <Text style={[additionalStyles.label, styles.text]}>
-          Enter Content:
+          Spend Description:
         </Text>
         <TextInput
           style={additionalStyles.input}
           value={content}
           onChangeText={(text) => setContent(text)}
         />
+        <Text style={[additionalStyles.label, styles.text]}>
+          Spend Date:
+        </Text>
+        <TextInput
+          style={additionalStyles.input}
+          value={date}
+          onChangeText={(text) => setDate(text)}
+        />
+        <Text style={[additionalStyles.label, styles.text]}>
+          Amount:
+        </Text>
+        <TextInput
+          style={additionalStyles.input}
+          value={amount}
+          onChangeText={(text) => setAmount(text)}
+        />
+
         <TouchableOpacity
           style={[styles.button, { marginTop: 20 }]}
           onPress={savePost}
