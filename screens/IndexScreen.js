@@ -8,9 +8,9 @@ import {
   SafeAreaView,
   StyleSheet,
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import axios from "axios";
-import { API, API_POSTS } from "../constants/API";
+import { API, API_POSTS, API_WHOAMI } from "../constants/API";
 import { commonStyles, darkStyles, lightStyles } from "../styles/commonStyles";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
@@ -22,6 +22,7 @@ export default function IndexScreen({ route }) {
   const styles = isDark ? darkStyles : lightStyles;
   const [posts, setPosts] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [amount, setAmount] = useState("");
 
   // This is to set up the top right button
   useEffect(() => {
@@ -54,8 +55,12 @@ export default function IndexScreen({ route }) {
       const response = await axios.get(API + API_POSTS, {
         headers: { Authorization: `JWT ${token}` },
       });
+      console.log("getPosts");
       console.log(response.data);
-      setPosts(response.data);
+      const postData = response.data;
+      console.log("postData");
+      const usersPosts = await filteredPosts(postData);
+      setPosts(usersPosts);
       return "completed";
     } catch (error) {
       console.log(error.response.data);
@@ -70,6 +75,7 @@ export default function IndexScreen({ route }) {
     const response = await getPosts();
     setRefreshing(false);
   }
+
   function addPost() {
     navigation.navigate("Add");
   }
@@ -86,6 +92,15 @@ export default function IndexScreen({ route }) {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    let total = 0;
+    for (let i = 0; i < posts.length; i++) {
+      const post=posts[i];
+      total = total + post.amount;
+    }
+    setAmount(total);
+  }, [posts]);
 
   // The function to render each row in our FlatList
   function renderItem({ item }) {
@@ -104,15 +119,29 @@ export default function IndexScreen({ route }) {
             justifyContent: "space-between",
           }}
         >
-          <Text style={styles.text}>{item.title}</Text>
-          <TouchableOpacity onPress={() => deletePost(item.id)}>
-            <FontAwesome name="trash" size={20} color="#a80000" />
+          <Text style={styles.flatlistText}>{item.date}</Text>
+          <Text style={styles.flatlistText}>{item.title}</Text>
+          <Text style={styles.flatlistText}>{item.content}</Text>
+          <Text style={styles.flatlistText}>$ {item.amount.toFixed(2)}</Text>
+          <TouchableOpacity style={{alignItems:"center"}} onPress={() => deletePost(item.id)}>
+            <FontAwesome style={styles.icons} name="trash" size={20} />
           </TouchableOpacity>
         </View>
       </TouchableOpacity>
     );
   }
 
+
+  async function filteredPosts(data) {
+    console.log("filteredPosts");
+  const response = await axios.get(API + API_WHOAMI, {
+    headers: { Authorization: `JWT ${token}` },
+  });
+  console.log(response.data);
+  const id = (response.data.id);
+  const filteredPosts = data.filter((item) => item.user_id === id);
+  return (filteredPosts);
+}
   const [currentDate, setCurrentDate] = useState("");
 
   useEffect(() => {
@@ -147,10 +176,11 @@ export default function IndexScreen({ route }) {
   //   );
   // }
 
+
   return (
     <View style={styles.container}>
-      <Text style={commonStyles.dateTitle}>{currentDate}</Text>
-      <Text style={commonStyles.totalAmount}> Total Spent: 'amount' </Text>
+      <Text style={styles.dateTitle}>{currentDate}</Text>
+      <Text style={commonStyles.totalAmount}> Total Spent: $ {amount} </Text>
       <FlatList
         data={posts}
         renderItem={renderItem}
