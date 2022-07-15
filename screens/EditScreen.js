@@ -12,18 +12,25 @@ export default function EditScreen({ navigation, route }) {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [date, setDate] = useState("");
+  const [amount, setAmount] = useState("");
+
   const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
     const post = route.params.post
     setTitle(post.title);
     setContent(post.content);
+    setDate(post.date);
+    setAmount(String(post.amount));
   }, [])
 
   async function editPost() {
     const post = {
       "title": title,
       "content": content,
+      "date": date,
+      "amount": amount,
     }
     // const token = await AsyncStorage.getItem("token");
     const id = route.params.post.id
@@ -43,17 +50,29 @@ export default function EditScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
       <View style={{ margin: 20 }}>
-        <Text style={[additionalStyles.label, styles.text]}>Enter Title:</Text>
+        <Text style={[additionalStyles.label, styles.text]}>Edit Title:</Text>
         <TextInput
           style={additionalStyles.input}
           value={title}
           onChangeText={text => setTitle(text)}
         />
-        <Text style={[additionalStyles.label, styles.text]}>Enter Content:</Text>
+        <Text style={[additionalStyles.label, styles.text]}>Edit Description:</Text>
         <TextInput
           style={additionalStyles.input}
           value={content}
           onChangeText={text => setContent(text)}
+        />
+        <Text style={[additionalStyles.label, styles.text]}>Edit Date:</Text>
+        <TextInput
+          style={additionalStyles.input}
+          value={date}
+          onChangeText={text => setDate(text)}
+        />
+        <Text style={[additionalStyles.label, styles.text]}>Edit Amount:</Text>
+        <TextInput
+          style={additionalStyles.input}
+          value={amount}
+          onChangeText={text => Number(setAmount(text))}
         />
       <TouchableOpacity style={[styles.button, {marginTop: 20}]} onPress={editPost}>
         <Text style={styles.buttonText}>
