@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 export default function ShowScreen({ navigation, route }) {
   const token = useSelector((state) => state.auth.token);
-  const [post, setPost] = useState({ title: "", content: "" });
+  const [post, setPost] = useState({ title: "", content: "", date: "", amount: "" });
   const isDark = useSelector((state) => state.accountPrefs.isDark);
   const styles = { ...commonStyles, ...(isDark ? darkStyles : lightStyles) };
 
@@ -56,8 +56,14 @@ export default function ShowScreen({ navigation, route }) {
       <Text style={[styles.title, styles.text, { margin: 40 }]}>
         {post.title}
       </Text>
-      <Text style={[styles.content, styles.text, { margin: 20 }]}>
+      <Text style={[styles.content, styles.text, { margin: 20 }]}>Description:
         {post.content}{" "}
+      </Text>
+      <Text style={[styles.content, styles.text, { margin: 20 }]}>Date: 
+        {post.date}{" "}
+      </Text>
+      <Text style={[styles.content, styles.text, { margin: 20 }]}>$
+        {post.amount}{" "}
       </Text>
     </View>
   );
