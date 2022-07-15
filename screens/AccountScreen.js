@@ -166,7 +166,7 @@ export default function AccountScreen({ navigation }) {
         }
       </View>
       <TouchableOpacity onPress={() => navigation.navigate("Camera")}>
-        <Text style={{ marginTop: 10, fontSize: 20, color: "#0000EE" }}>
+        <Text style={styles.cameraLink}>
           {profilePicture
             ? "Delete this photo. Take another one."
             : "No profile picture. Click to take one."}
@@ -175,7 +175,7 @@ export default function AccountScreen({ navigation }) {
       {profilePicture ? (
         <View>
           <TouchableOpacity onPress={deletePic}>
-            <Text style={{ marginTop: 10, fontSize: 20, color: "#0000EE" }}>
+            <Text style={styles.cameraLink}>
               Delete Profile Picture
             </Text>
           </TouchableOpacity>
@@ -192,9 +192,9 @@ export default function AccountScreen({ navigation }) {
         <Text style={[styles.content, styles.text]}> Dark Mode? </Text>
         <Switch value={isDark} onChange={switchMode} />
       </View>
-      <TouchableOpacity style={[styles.button]} onPress={signOut}>
+      {/* <TouchableOpacity style={[styles.button]} onPress={signOut}>
         <Text style={styles.buttonText}>Sign Out</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 }
