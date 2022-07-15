@@ -20,13 +20,6 @@ export const commonStyles = {
     fontWeight: '400',
     fontSize: 24,
   },
-  dateTitle: {
-    fontWeight: "bold",
-    fontSize: 18,
-    textAlign: "center",
-    marginTop: 10,
-    color: "#5A4C4C",
-  },
   totalAmount: {
     fontWeight: "bold",
     fontSize: 24,
@@ -44,6 +37,12 @@ export const lightStyles = {
   },
   text: {
     color: "black",
+    // flex:1,
+  },
+  flatlistText: {
+    color: "black",
+    flex: 1,
+    textAlign: "left",
   },
   header: {
     backgroundColor: "#C1DBFC",
@@ -57,7 +56,22 @@ export const lightStyles = {
     fontWeight: "bold",
     color: "black"
   },
-  headerTint: "black"
+  headerTint: "black",
+  icons:{
+    color: "#a80000",
+  },
+  dateTitle: {
+    fontWeight: "bold",
+    fontSize: 18,
+    textAlign: "center",
+    marginTop: 10,
+    color: "#5A4C4C",
+  },
+  cameraLink: {
+    marginTop: 10, 
+    fontSize: 20, 
+    color: "#0000EE"
+  }
 };
 
 export const darkStyles = {
@@ -67,6 +81,11 @@ export const darkStyles = {
   },
   text: {
     color: "white",
+  },
+  flatlistText: {
+    color: "white",
+    flex: 1,
+    textAlign: "left",
   },
   header: {
     backgroundColor: "#323941",
@@ -80,5 +99,20 @@ export const darkStyles = {
     fontWeight: "bold",
     color: "#f4d47c"
   },
-  headerTint: "#f4d47c"
+  headerTint: "#f4d47c",
+  icons:{
+    color: "#fd4242",
+  },
+  dateTitle: {
+    fontWeight: "bold",
+    fontSize: 18,
+    textAlign: "center",
+    marginTop: 10,
+    color: "#bfa1a1",
+  },
+  cameraLink: {
+    marginTop: 10, 
+    fontSize: 20, 
+    color: "#d3dff5"
+  }
 }
